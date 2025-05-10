@@ -111,19 +111,59 @@ python main.py --do_train --resume_training
 ```
 
 ### 完成训练、评估、预测，并且开启断点续训
-```
+```bash
 python main.py --do_train --do_eval --do_predict --resume_training 
 ```
 
 ## 📊 实验结果
 
 在THUCNews数据集上，本模型取得了以下性能：
+使用数据增强：
+```python
+# config.py
+# 模型参数
+model_name = "hfl/chinese-roberta-wwm-ext-large"  # 中文RoBERTa模型
+num_classes = None  # 将在运行时动态设置
+max_seq_length = 48  # 根据分析，99%的文本长度不超过27个字符，设置32作为安全值
 
+# 训练参数
+batch_size = 128
+gradient_accumulation_steps = 2  # 梯度累积步数
+num_epochs = 5  # 训练完4个epoch后发现验证集上准确率很高，实际上只训练了4个epoch
+learning_rate = 1e-4
+warmup_proportion = 0.2
+weight_decay = 0
+
+random_seed = 42
+```
 - 验证集总体准确率：99.48%
 - 宏平均F1分数：99.54%
 - 小类别（如彩票、星座）的F1分数相比基线提升xx.xx%
-
 - 测试集总体准确率：89.15%
+
+不使用数据增强：
+```python
+# config.py
+# 模型参数
+model_name = "hfl/chinese-roberta-wwm-ext-large"  # 中文RoBERTa模型
+num_classes = None  # 将在运行时动态设置
+max_seq_length = 48  # 根据分析，99%的文本长度不超过27个字符，设置32作为安全值
+
+# 训练参数
+batch_size = 128
+gradient_accumulation_steps = 2  # 梯度累积步数
+num_epochs = 4
+learning_rate = 1e-4
+warmup_proportion = 0.1
+weight_decay = 0
+
+random_seed = 42
+```
+- 验证集总体准确率：99.40%
+- 宏平均F1分数：99.40%
+- 小类别（如彩票、星座）的F1分数相比基线提升xx.xx%
+- 测试集总体准确率：89.03%
+
 
 ## 🔍 核心创新点
 
@@ -134,7 +174,7 @@ python main.py --do_train --do_eval --do_predict --resume_training
 
 ## 📝 参考资料
 
-- THUCNews数据集: [链接](http://thuctc.thunlp.org/)
+- THUCNews数据集: [链接](https://aistudio.baidu.com/datasetdetail/103654/0)
 - Chinese RoBERTa-wwm-ext-large: [链接](https://huggingface.co/hfl/chinese-roberta-wwm-ext-large)
 
 
