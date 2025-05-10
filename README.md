@@ -26,6 +26,10 @@
 
 ```
 .
+├── data/                       # 数据目录
+│   ├── dev.txt                 # 开发/验证集数据
+│   ├── test.txt                # 测试集数据
+│   └── train.txt               # 训练集数据
 ├── apply_data_augmentation.py  # GPU加速的数据增强工具
 ├── config.py                   # 配置文件
 ├── data_utils.py               # 数据加载与处理
@@ -78,7 +82,7 @@ pip install torch transformers matplotlib seaborn scikit-learn tqdm jieba
 ### 数据增强
 
 ```bash
-python apply_data_augmentation.py --input path/to/train.txt --output path/to/augmented_train.txt
+python apply_data_augmentation.py --input data/train.txt --output data/augmented_train.txt
 ```
 
 ### 模型训练
@@ -105,17 +109,24 @@ python main.py --do_predict
 python main.py --do_train --resume_training
 ```
 
+### 完成所有内容，并且开启断点续训
+```
+python main.py --do_train --do_eval --do_predict --resume_training 
+```
+
 ## 📊 实验结果
 
 在THUCNews数据集上，本模型取得了以下性能：
 
-- 总体准确率：xx.xx%
-- 宏平均F1分数：xx.xx%
+- 验证集总体准确率：99.48%
+- 宏平均F1分数：99.54%
 - 小类别（如彩票、星座）的F1分数相比基线提升xx.xx%
+
+- 测试集总体准确率：89.15%
 
 ## 🔍 核心创新点
 
-1. **智能数据增强策略**：根据类别分布自动计算每个类别的增强比例，只增强小类别
+1. **智能数据增强策略**：根据类别分布自动计算每个类别的增强比例，着重增强小类别
 2. **GPU加速的回译增强**：使用GPU加速翻译模型进行回译，速度提升10倍以上
 3. **轻量级注意力机制**：融合CLS表示和注意力加权表示，捕捉标题中的关键信息
 4. **可视化训练监控**：实时生成训练指标图表，直观展示训练进度和模型性能
@@ -124,12 +135,8 @@ python main.py --do_train --resume_training
 
 - THUCNews数据集: [链接](http://thuctc.thunlp.org/)
 - Chinese RoBERTa-wwm-ext-large: [链接](https://huggingface.co/hfl/chinese-roberta-wwm-ext-large)
-- EDA数据增强: [论文链接](https://arxiv.org/abs/1901.11196)
 
-## 📄 许可证
-
-[MIT License](LICENSE)
 
 ## 👨‍💻 作者
 
-[Your Name](https://github.com/yourusername)
+[Peng Kun](https://github.com/6PengKun)
