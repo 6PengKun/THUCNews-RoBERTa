@@ -84,7 +84,7 @@ pip install torch transformers matplotlib seaborn scikit-learn tqdm jieba
 ```bash
 python apply_data_augmentation.py --input data/train.txt --output data/augmented_train.txt
 ```
-————————————————————————————————————————————————————————————————————————————————————————————————————
+—————————————————————————————————————————————————————————————
 
 ### 模型训练
 
