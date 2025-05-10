@@ -84,6 +84,7 @@ pip install torch transformers matplotlib seaborn scikit-learn tqdm jieba
 ```bash
 python apply_data_augmentation.py --input data/train.txt --output data/augmented_train.txt
 ```
+————————————————————————————————————————————————————————————————————————————————————————————————————
 
 ### 模型训练
 
@@ -109,7 +110,7 @@ python main.py --do_predict
 python main.py --do_train --resume_training
 ```
 
-### 完成所有内容，并且开启断点续训
+### 完成训练、评估、预测，并且开启断点续训
 ```
 python main.py --do_train --do_eval --do_predict --resume_training 
 ```
