@@ -84,7 +84,7 @@ pip install torch transformers matplotlib seaborn scikit-learn tqdm jieba
 ```bash
 python apply_data_augmentation.py --input data/train.txt --output data/augmented_train.txt
 ```
-—————————————————————————————————————————————————————————————
+———————————————————————————————————————————————
 
 ### 模型训练
 
@@ -118,6 +118,7 @@ python main.py --do_train --do_eval --do_predict --resume_training
 ## 📊 实验结果
 
 在THUCNews数据集上，本模型取得了以下性能：
+
 使用数据增强：
 ```python
 # config.py
