@@ -119,6 +119,29 @@ python main.py --do_train --do_eval --do_predict --resume_training
 
 在THUCNews数据集上，本模型取得了以下性能：
 
+不使用数据增强：
+```python
+# config.py
+# 模型参数
+model_name = "hfl/chinese-roberta-wwm-ext-large"  # 中文RoBERTa模型
+num_classes = None  # 将在运行时动态设置
+max_seq_length = 48  # 根据分析，99%的文本长度不超过27个字符，设置32作为安全值
+
+# 训练参数
+batch_size = 128
+gradient_accumulation_steps = 2  # 梯度累积步数
+num_epochs = 4
+learning_rate = 1e-4
+warmup_proportion = 0.1
+weight_decay = 0
+
+random_seed = 42
+```
+- 验证集总体准确率：99.40%
+- 宏平均F1分数：99.40%
+- 小类别（如彩票、星座）的F1分数相比基线提升xx.xx%
+- 测试集总体准确率：89.03%
+
 使用数据增强：
 ```python
 # config.py
@@ -142,28 +165,10 @@ random_seed = 42
 - 小类别（如彩票、星座）的F1分数相比基线提升xx.xx%
 - 测试集总体准确率：89.15%
 
-不使用数据增强：
-```python
-# config.py
-# 模型参数
-model_name = "hfl/chinese-roberta-wwm-ext-large"  # 中文RoBERTa模型
-num_classes = None  # 将在运行时动态设置
-max_seq_length = 48  # 根据分析，99%的文本长度不超过27个字符，设置32作为安全值
+注：由于该任务训练集和验证集的相似程度较高，但是在测试集表现提升很难，似乎存在一个泛化边界（更换不同的基座，总是达到相近的测试集性能），复杂化的特征提取反而效果较差，在有限的计算资源下，很难做出飞跃性的提升。
+89.15%是目前尝试的所有常规架构（预训练模型基座 + 顶层的特征变换 + 分类层）中最好的单模性能，并且架构相对简单。
+进一步的提升需要考虑模型集成和直推式学习。
 
-# 训练参数
-batch_size = 128
-gradient_accumulation_steps = 2  # 梯度累积步数
-num_epochs = 4
-learning_rate = 1e-4
-warmup_proportion = 0.1
-weight_decay = 0
-
-random_seed = 42
-```
-- 验证集总体准确率：99.40%
-- 宏平均F1分数：99.40%
-- 小类别（如彩票、星座）的F1分数相比基线提升xx.xx%
-- 测试集总体准确率：89.03%
 
 
 ## 🔍 核心创新点
